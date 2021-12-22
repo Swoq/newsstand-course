@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newsstand-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: newsstand-container
+  template:
+    metadata:
+      name: newsstand-pod
+      labels:
+        component: newsstand-container
+    spec:
+      containers:
+        - name: newsstand-container
+          image: swoqe/newsstand-container
+          ports:
+            - containerPort: 8080
+#          livenessProbe:
+#            httpGet:
+#              path: /healthz
+#              port: 8080
+#            failureThreshold: 1
+#            periodSeconds: 10
+          env:
+            - name: INITIALIZATION_MODE
+              value: "true"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://cluster-ip-service-postgres:5432/postgres"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "postgres"
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-ip-service-newsstand
+spec:
+  type: ClusterIP
+  selector:
+    component: newsstand-container
+  ports:
+    - port: 8080
+      targetPort: 8080

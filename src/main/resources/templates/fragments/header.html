@@ -1,0 +1,104 @@
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title></title>
+</head>
+<body>
+<div th:fragment="header">
+    <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+            <div class="col-4 pt-1 d-flex flex-column justify-content-start">
+                <div class="dropdown mb-2">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span th:class="'flag-icon flag-icon-' + ${#locale}"></span>
+
+                        <span th:if='${#locale.toString().equalsIgnoreCase("gb")}'>English</span>
+                        <span th:if='${#locale.toString().equalsIgnoreCase("ru")}'>Russian</span>
+                        <span th:if='${#locale.toString().equalsIgnoreCase("ua")}'>Ukrainian</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                         th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                        <a class="dropdown-item" th:href="@{${urlBuilder.replaceQueryParam('lang', 'gb').toUriString()}}"><span class="flag-icon flag-icon-gb"></span> English</a>
+                        <a class="dropdown-item" th:href="@{${urlBuilder.replaceQueryParam('lang', 'ru').toUriString()}}"><span class="flag-icon flag-icon-ru"></span> Russian</a>
+                        <a class="dropdown-item" th:href="@{${urlBuilder.replaceQueryParam('lang', 'ua').toUriString()}}"><span class="flag-icon flag-icon-ua"></span> Ukrainian</a>
+                    </div>
+                </div>
+                <a th:if="${#httpServletRequest.requestURI.endsWith('/')}" class="btn btn-outline-dark col-4 md-1" th:href="@{/publishers}" th:text="#{header.placeholder.catalogBtn}"></a>
+                <a th:if="${#httpServletRequest.requestURI.endsWith('/publishers')}" class="btn btn-outline-dark col-4 md-1" th:href="@{/}" th:text="#{header.placeholder.publicationsBtn}"></a>
+            </div>
+            <div class="col-4 text-center">
+                <a class="blog-header-logo text-dark" th:href="@{/}">NewSStand</a>
+            </div>
+            <div class="col-4 d-flex flex-column justify-content-end align-items-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/auth/registration}"
+                   th:text="#{header.placeholder.signUpBtn}"
+                   sec:authorize="!isAuthenticated()"></a>
+                <a class="btn btn-sm btn-outline-secondary mt-1" th:href="@{/login}"
+                   th:text="#{header.placeholder.signInBtn}"
+                   sec:authorize="!isAuthenticated()"></a>
+
+                <div sec:authorize="isAuthenticated()">
+                    <h5 class="font-italic text-dark" sec:authentication="name"></h5>
+                    <div class="d-flex justify-content-center">
+                        <button sec:authorize="hasAnyAuthority('publisher:write', 'publisher:read')"
+                                th:text="#{header.placeholder.adminPanelBtn}"
+                                th:classappend="|${info == null ? '' : 'bg-success'} ${error == null ? '' : 'bg-danger'} |"
+                                type="button" class="btn btn-sm btn-outline-secondary"
+                                data-toggle="modal" data-target="#adminModal">
+                        </button>
+                        <a th:href="@{/account}" th:text="#{header.placeholder.accountBtn}"
+                           class="btn btn-sm ml-1 btn-outline-secondary" ></a>
+                        <a th:href="@{/logout}" th:text="#{header.placeholder.logoutBtn}"
+                           class="btn btn-sm ml-1 btn-outline-secondary"></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" th:href="@{/?genres=6bed9463-8b6a-4b94-a7af-d14329b88429}" th:text="#{genres.a}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=31305b2a-19f6-4c85-a099-280e73916dab}" th:text="#{genres.b}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=352ca1d8-4ab9-426d-9218-ad8ce7c041dc}" th:text="#{genres.c}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=1bfca4ae-ebf6-4da4-9bc0-039fe0db49a5}" th:text="#{genres.d}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=23bcfa35-3398-4077-8e98-d9acec966c64}" th:text="#{genres.e}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=a160df2d-28f8-47ba-acae-42180b8791e8}" th:text="#{genres.f}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=f72fded3-bf7f-4260-8ea4-ff8ce6df4aff}" th:text="#{genres.g}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=064622ce-b760-44f9-84a0-4a9523ab5023}" th:text="#{genres.h}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=8d142810-0502-4582-942d-a470ba41c149}" th:text="#{genres.i}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=9ee8ec37-4b0f-46be-b857-d08faad12c7c}" th:text="#{genres.j}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=f55baecb-db13-4e78-987f-6ef0b6904e45}" th:text="#{genres.k}"></a>
+            <a class="p-2 text-muted" th:href="@{/?genres=5c21c04f-2628-4700-8416-8e97e19feec9}" th:text="#{genres.l}"></a>
+        </nav>
+    </div>
+
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title align-content-center" id="exampleModalLabel">Admin Panel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-column">
+                        <p th:if="${error != null}" class="text-danger" th:text="${error}"></p>
+                        <p th:if="${info != null}" class="text-success" th:text="${info}"></p>
+                        <a class="btn btn-sm mb-4 btn-outline-secondary" th:href="@{/publication/new}" th:text="#{admin.panel.addNewPublication}"></a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button th:text="#{admin.panel.placeholder.closeBtn}"
+                            type="button" class="btn btn-secondary" data-dismiss="modal" >
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+</body>
+</html>

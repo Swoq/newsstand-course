@@ -1,0 +1,103 @@
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Create publication</title>
+    <meta charset="utf-8">
+    <link href="https://getbootstrap.com/docs/4.6/examples/blog/" rel="canonical">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@dashboardcode/bsmultiselect@1.0.0/dist/css/BsMultiSelect.bs4.min.css" rel="stylesheet">
+    <link th:href="@{/css/footer.css}" rel="stylesheet">
+    <link th:href="@{/css/header.css}" rel="stylesheet">
+    <link th:href="@{/css/new_publication.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="new-publication-form">
+        <a th:href="@{/account}" class="font-weight-light text-dark mb-3">Back to account</a>
+        <form th:action="@{/publisher/request}" th:object="${publisher}" method="post" >
+<!--        Title-->
+            <p th:each="error: ${#fields.errors('officialName')}"
+               th:text="${error}" class="text-danger self-align-center">Validation error</p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Official Name</span>
+                </div>
+                <input th:field="*{officialName}" type="text" class="form-control" name="title" required>
+            </div>
+            <!--        Image CDN-->
+            <p th:each="error: ${#fields.errors('imageUrl')}"
+               th:text="${error}" class="text-danger self-align-center">Validation error</p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon5">Image CDN</span>
+                </div>
+                <input th:field="*{imageUrl}" type="text" class="form-control" name="image">
+            </div>
+<!--        Description-->
+            <p th:each="error: ${#fields.errors('description')}"
+               th:text="${error}" class="text-danger self-align-center">Validation error</p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Description</span>
+                </div>
+                <textarea th:field="*{description}" class="form-control" name="description"></textarea>
+            </div>
+
+            <p th:each="error: ${#fields.errors('contactEmail')}"
+               th:text="${error}" class="text-danger self-align-center">Validation error</p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Contact Email</span>
+                </div>
+                <input th:field="*{contactEmail}" type="text" class="form-control" name="image">
+            </div>
+
+            <p th:each="error: ${#fields.errors('contactPhone')}"
+               th:text="${error}" class="text-danger self-align-center">Validation error</p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Contact Phone</span>
+                </div>
+                <input th:field="*{contactPhone}" type="text" class="form-control" name="image">
+            </div>
+
+            <p th:each="error: ${#fields.errors('periodInDays')}"
+               th:text="${error}" class="text-danger self-align-center">Validation error</p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Period In Days</span>
+                </div>
+                <input th:field="*{periodInDays}" type="number" class="form-control" name="image">
+            </div>
+
+            <p th:each="error: ${#fields.errors('price')}"
+               th:text="${error}" class="text-danger self-align-center">Validation error</p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Price</span>
+                </div>
+                <input th:field="*{price}" type="number" class="form-control" name="image">
+            </div>
+
+            <div class="d-flex flex-column">
+                <button type="submit" class="h3 btn btn-outline-dark btn-lg">Create Publication</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@dashboardcode/bsmultiselect@1.1.18/dist/js/BsMultiSelect.min.js" crossorigin="anonymous"></script>
+<script th:src="@{/js/new_publication.js}"></script>
+<script th:src="@{/js/header.js}"></script>
+</body>
+</html>
